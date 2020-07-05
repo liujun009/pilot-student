@@ -1,12 +1,14 @@
 from time import sleep
 from termcolor import colored
 from simpleeval import simple_eval
+from random import choice
 
 class Bot:
 
     wait = 1
 
-    def __init__(self):
+    def __init__(self, runtype='once'):
+        self.runtype = runtype
         self.q = ''
         self.a = ''
 
@@ -14,7 +16,21 @@ class Bot:
         return s
 
     def _format(self, s):
-        return colored(s, 'blue')
+        return colored(s, 'red')
+
+    def _run_once(self):
+        sleep(Bot.wait)
+        print(self._format(self.q))
+        self.a = input()
+        sleep(Bot.wait)
+        print(self._format(self._think(self.a)))
+
+    def _run_looped(self):
+        sleep(Bot.wait)
+        print(self._format(self.q))
+        while True:
+            self.a = input()
+            if self.a.lower() in ['q']
 
     def run(self):
         sleep(Bot.wait)
