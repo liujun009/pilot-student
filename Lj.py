@@ -30,24 +30,29 @@ class Bot:
         print(self._format(self.q))
         while True:
             self.a = input()
-            if self.a.lower() in ['q']
+            if self.a.lower() in ['q','x','quit','exit']:
+                break
+            sleep(Bot.wait)
+            print(self._format(self._think(self.a)))
 
     def run(self):
-        sleep(Bot.wait)
-        print(self._format(self.q))
-        self.a = input()
-        sleep(Bot.wait)
-        print(self._format(self._think(self.a)))
+        if self.runtype == 'once':
+            self._run_once()
+        elif self.runtype == 'looped':
+            self._run_looped()
+
 
 class HelloBot(Bot):
-    def __init__(self):
+    def __init__(self, runtype='once'):
+        super().__init__(runtype)
         self.q = "Hi,what is your name?"
         
     def _think(self, s):
         return f"Hello {s}"
 
 class GreetingBot(Bot):
-    def __init__(self):
+    def __init__(self, runtype='once'):
+        super().__init__(runtype)
         self.q = "How are you today?"
         
     def _think(self, s):
@@ -59,7 +64,8 @@ class GreetingBot(Bot):
 import random
 
 class FavoriteColorBot(Bot):
-    def __init__(self):
+    def __init__(self, runtype='once'):
+        super().__init__(runtype)
         self.q = "What's your favorite color?"
         
     def _think(self, s):
@@ -67,22 +73,14 @@ class FavoriteColorBot(Bot):
         return f"You like {s.lower()}? My favorite color is {random.choice(colors)}"
 
 class CalcBot(Bot):
-    def __init__(self):
+    def __init__(self, runtype='once'):
+        super().__init__(runtype)
         self.q = "Though recent upgrade I can calculation now.Input some arithmetic expression to try:"
 
     def _think(self, s):
         result = simple_eval(s)
         return f"Done. Result = {result}"
 
-    def run(self):
-        sleep(Bot.wait)
-        print(self._format(self.q))
-        while True:
-            self.a = input()
-            if self.a.lower() in ['q','x','quit','exit']:
-                break
-            sleep(Bot.wait)
-            print(self._format(self._think(self.a)))
 
 class Shi:
     
@@ -106,5 +104,5 @@ shi = Shi(1)
 shi.add(HelloBot())
 shi.add(GreetingBot())
 shi.add(FavoriteColorBot())
-shi.add(CalcBot())
+shi.add(CalcBot('looped'))
 shi.run()                                                
